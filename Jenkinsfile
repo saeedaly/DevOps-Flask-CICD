@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/DevOps-Flask-CICD.git'
+                 git branch: 'main',
+                    url: 'https://github.com/saeedaly/DevOps-Flask-CICD.git',
+                    credentialsId: 'f2fc180f-6caf-4a4a-a9a3-fcb34f1dda9f'
             }
         }
         stage('Build Docker Image') {
