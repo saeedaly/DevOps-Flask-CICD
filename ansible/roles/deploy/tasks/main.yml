@@ -1,0 +1,5 @@
+- name: Pull latest Docker image
+  shell: docker pull flask-app
+- name: Run Docker container
+  shell: docker run -d -p 80:5000 flask-app
+
