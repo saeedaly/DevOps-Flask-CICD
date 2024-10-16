@@ -3,15 +3,19 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                 git branch: 'main',
-                    url: 'https://github.com/saeedaly/DevOps-Flask-CICD.git',
-                    credentialsId: 'f2fc180f-6caf-4a4a-a9a3-fcb34f1dda9f'
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASSWORD')]) {
+                def giturl: 'https://$GIT_USER:$GIT_PASSWORD@github.com/saeedaly/DevOps-Flask-CICD.git'
+                    git url: gitUrl
+                }
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('flask-app')
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                        docker.build('flask-app')
+                    }
                 }
             }
         }
@@ -22,6 +26,7 @@ pipeline {
                         sh 'pytest tests/test_app.py'
                     }
                 }
+                                
             }
         }
         stage('Deploy to Server') {
@@ -31,4 +36,3 @@ pipeline {
         }
     }
 }
-
