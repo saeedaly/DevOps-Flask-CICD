@@ -4,8 +4,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASSWORD')]) {
-                def giturl: 'https://$GIT_USER:$GIT_PASSWORD@github.com/saeedaly/DevOps-Flask-CICD.git'
-                    git url: gitUrl
+                def giturl: "https://$GIT_USER:$GIT_PASSWORD@github.com/saeedaly/DevOps-Flask-CICD.git"
+                    git url: gitUrl ,branch: 'main'
                 }
             }
         }
